@@ -26,6 +26,8 @@ var lima = new City('Lima', 2, 16, 4.6);
 
 var dataDiv = document.getElementById('data');
 
+var tableRef = document.getElementById('cookie-table');
+
 // Uses a method of that object to generate a random number of customers per hour.
 //     Objects/Math/random
 
