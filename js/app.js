@@ -1,8 +1,10 @@
 'use strict';
 
-//  Declare Days and Store Hours
-
-//  Stores the min/max hourly customers, and the average cookies per customer,
+//  UNIVERSALS ---------------------------------------------------------------------
+// 
+//  Declares Days
+//  Declares Store Hours
+//  Declares the min/max hourly customers, and the average cookies per customer,
 //      in object properties
 //  Stages array if Store Variables
 
@@ -10,50 +12,89 @@ var days = ['Monday', 'Tuesday', 'Wednesday',
   'Thursday', 'Friday', 'Saturday', 'Sunday'];
 console.log(`days: ${days}`);
 
-var storeHours = ['6 am', '7 am', '8 am', '9 am', '10 am', '11 am',
+var hours = ['6 am', '7 am', '8 am', '9 am', '10 am', '11 am',
   '12 pm', '1 pm', '2 pm', '3 pm', '4 pm', '5 pm', '6 pm', '7 pm', ];
-console.log(`storeHours: ${storeHours}`);
-
-var seattle = new City('Seattle', 23, 65, 6.3, 'seattleData');
-
-var tokyo = new City('Tokyo', 3, 24, 1.2, 'tokyoData');
-
-var dubai = new City('Dubai', 11, 38, 3.7, 'dubaiData');
-
-var paris = new City('Paris', 20, 38, 2.3, 'parisData');
-
-var lima = new City('Lima', 2, 16, 4.6, 'limaData');
-
-var storeLocation = [seattle, tokyo, dubai, paris, lima];
-console.log(`storeLocation: ${storeLocation}`);
+console.log(`storeHours: ${hours}`);
 
 
-// Uses a method of that object to generate a random number of customers per hour.
-//     Objects/Math/random
+// Constructor w/ Random Customer Creator --------------------------
+// --- this allows me to create the data for each city
+// --- and their random customer per hour * average sale
+// --- which equals Sales per Hour in the selected City
+// --- which I store as arraySalesPerHour
 
-//  Constructor functions start with a capital
-//  'this' in a constructor func can be read as
-//  the new object you are making in this constructor
-
-function City(city, min, max, avgSale, cityData) {
+function City(city, min, max, avgSale) {
   this.city = city;
   this.min = min;
   this.max = max;
   this.avgSale = avgSale;
-  this.createCustomers = function randomCustomers() {
+  this.customersPerHour = function () {
     return Math.floor(Math.random() * Math.floor(this.max) + this.min);
+  }
+  this.arraySalesPerHour = function () {
+    for(var hourIndex = 0; hourIndex < hours.length; hourIndex++) {
+      customersPerHour() * this.avgSale;
+    }
+  }
+  this.cookieHourlyArray = [];
+
+  // Render Function -------------------------------------------------
+  // --- What does this do
+  // --- sets up the render along the city axis, but not the time axis
+
+  this.render = function (domReference) {
+
+    var tr = document.createElement('tr');
+
+    var tdName = document.createElement('td');
+    tdName.textContent = this.name;
+    tr.append(tdName);
+
+    for (var cityIndex = 0; cityIndex < cookieHourlyArray.length; cityIndex++) {
+      var td = document.createElement('td');
+      td.textContent = this.cookieHourlyArray[cityIndex];
+      tr.append(td);
+    }
+
+    td = document.createElement('td');
+    td.textContent = 'total';
+    tr.append(td);
+
+    domReference.append(tr);
   };
-  this.cookiesHourly = [];
-  this.cityData = cityData;
 }
 
-// Calculate and store the simulated amounts of cookies purchased for each hour
-//     at each location using average cookies purchased
-//     and the random number of customers generated
-// Cookies purchased per hour = avg cookies purchased * number of customers/hour
+// CITIES AND CITY ARRAY -------------------------------------------
 
-// Render Function
+var seattle = new City('Seattle', 23, 65, 6.3);
 
+var tokyo = new City('Tokyo', 3, 24, 1.2);
+
+var dubai = new City('Dubai', 11, 38, 3.7);
+
+var paris = new City('Paris', 20, 38, 2.3);
+
+var lima = new City('Lima', 2, 16, 4.6);
+
+var arrayOfCities = [seattle, tokyo, dubai, paris, lima];
+console.log(`arrayOfCities: ${arrayOfCities}`);
+
+// ---------------------------------------------------------------------
+
+function crunchAndRenderTotals(arrayOfCities, domReference) {
+
+  var tr = document.createElement('tr');
+
+  var firstTD = document.createElement('td');
+  firstTD.textContent = 'Daily Totals';
+  tr.append(firstTD);
+
+  for(var )
+
+
+}
+
+// old stuff below
 function render(data, varType, type, contentArray, HTMLtag) {
   data = document.getElementById(HTMLtag);
   for (var indexHTML = 0; indexHTML < contentArray.length; indexHTML++) {
@@ -67,11 +108,11 @@ function render(data, varType, type, contentArray, HTMLtag) {
 // Render the values to the table
 // iterate through each store
 
-render('hourData', 'hr', 'th', storeHours, 'storeHours');
+render('hourData', 'hr', 'th', hours, 'storeHours');
 
-for(var indexRender = 0; indexRender < storeLocation.length; indexRender++) {
-  render(storeLocation[indexRender].cityData, 'bullet', 'td',
-    storeLocation[indexRender].cookiesHourly, storeLocation[indexRender].name);
+for(var indexRender = 0; indexRender < arrayOfCities.length; indexRender++) {
+  render(arrayOfCities[indexRender].cityData, 'bullet', 'td',
+    arrayOfCities[indexRender].cookieHourlyArray, arrayOfCities[indexRender].name);
 }
 
 // Need Totals
@@ -95,3 +136,4 @@ for(var indexRender = 0; indexRender < storeLocation.length; indexRender++) {
 //    Total: 875 cookies
 
 // Display the lists on sales.html
+*/
