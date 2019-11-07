@@ -13,7 +13,7 @@ var days = ['Monday', 'Tuesday', 'Wednesday',
 console.log(`days: ${days}`);
 
 var hours = ['6 am', '7 am', '8 am', '9 am', '10 am', '11 am',
-  '12 pm', '1 pm', '2 pm', '3 pm', '4 pm', '5 pm', '6 pm', '7 pm', ];
+  '12 pm', '1 pm', '2 pm', '3 pm', '4 pm', '5 pm', '6 pm', '7 pm',];
 console.log(`storeHours: ${hours}`);
 
 
@@ -33,8 +33,8 @@ function City(city, min, max, avgSale) {
     return Math.floor(Math.random() * Math.floor(this.max) + this.min);
   };
   this.fillArrayOfSalesPerHour = function () {
-    for(var hourIndex = 0; hourIndex < hours.length; hourIndex++) {
-      this.cookieHourlyArray.push(this.customersPerHour() * this.avgSale);
+    for (var hourIndex = 0; hourIndex < hours.length; hourIndex++) {
+      this.cookieHourlyArray.push(Math.round(this.customersPerHour() * this.avgSale));
     }
   };
 
@@ -65,7 +65,7 @@ function City(city, min, max, avgSale) {
   };
 }
 
-// CITIES AND CITY ARRAY -------------------------------------------
+// CITIES AND CITY ARRAY --------------------------------------------
 
 var seattle = new City('Seattle', 23, 65, 6.3);
 
@@ -80,10 +80,17 @@ var lima = new City('Lima', 2, 16, 4.6);
 var arrayOfCities = [seattle, tokyo, dubai, paris, lima];
 console.log(`arrayOfCities: ${arrayOfCities}`);
 
-// ---------------------------------------------------------------------
-console.log(`cookieHourlyArray: ${seattle.cookieHourlyArray}`);
-seattle.fillArrayOfSalesPerHour();
-seattle.render();
+// CALL CITIES TO RENDER --------------------------------------------
+// --- plug in each city into the render method and watch it burn
+
+function renderTable() {
+  for (var cityIndex = 0; cityIndex <= arrayOfCities.length; cityIndex++) {
+    arrayOfCities[cityIndex].fillArrayOfSalesPerHour();
+    console.log(`cookieHourlyArray: ${arrayOfCities[cityIndex].cookieHourlyArray}`);
+    arrayOfCities[cityIndex].render();
+  }
+}
+renderTable();
 
 /*
 function crunchAndRenderTotals(arrayOfCities, domReference) {
@@ -94,53 +101,34 @@ function crunchAndRenderTotals(arrayOfCities, domReference) {
   firstTD.textContent = 'Daily Totals';
   tr.append(firstTD);
 }
+*/
+
+//-------------------------------------------------------------------------------
+// FORMS
+//-------------------------------------------------------------------------------
+
+// var form = document.getElementById('cookie-form');
+
+// form.addEventListener('submit', clickHandler);
+// function clickHandler() {
+//   event.preventDefault();
+// }
+
+// var newCity = City();
+
+//   arrayOfCities.push(newCity);
+
+//   cleanScreenAndRenderAll();
+// });
+
+// cleanScreenAndRenderAll();
 
 
-  for(var )
+// var paragraph = document.getElementById('refresh');
 
-
-}
-
-// old stuff below
-function render(data, varType, type, contentArray, HTMLtag) {
-  data = document.getElementById(HTMLtag);
-  for (var indexHTML = 0; indexHTML < contentArray.length; indexHTML++) {
-    varType = document.createElement(type);
-    console.log(`varType: ${varType}`);
-    varType.textContent = contentArray[indexHTML];
-    data.render(varType);
-  }
-}
-
-// Render the values to the table
-// iterate through each store
-
-render('hourData', 'hr', 'th', hours, 'storeHours');
-
-for(var indexRender = 0; indexRender < arrayOfCities.length; indexRender++) {
-  render(arrayOfCities[indexRender].cityData, 'bullet', 'td',
-    arrayOfCities[indexRender].cookieHourlyArray, arrayOfCities[indexRender].name);
-}
+// paragraph.addEventListener('click', function(event) {
+//   var table = document.getElementById('dog-table');
+//   table.innerHTML = '';
+// });
 
 // Need Totals
-
-// Seattle
-
-// 0  6am: 16 cookies
-// 1  7am: 20 cookies
-// 2  8am: 35 cookies
-// 3  9am: 48 cookies
-// 4  10am: 56 cookies
-// 5  11am: 77 cookies
-// 6  12pm: 93 cookies
-// 7  1pm: 144 cookies
-// 8  2pm: 119 cookies
-// 9  3pm: 84 cookies
-// 10 4pm: 61 cookies
-// 11 5pm: 23 cookies
-// 12 6pm: 42 cookies
-// 13 7pm: 57 cookies
-//    Total: 875 cookies
-
-// Display the lists on sales.html
-*/
