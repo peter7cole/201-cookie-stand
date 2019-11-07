@@ -1,7 +1,7 @@
 'use strict';
 
 //  UNIVERSALS ---------------------------------------------------------------------
-// 
+//
 //  Declares Days
 //  Declares Store Hours
 //  Declares the min/max hourly customers, and the average cookies per customer,
@@ -28,29 +28,30 @@ function City(city, min, max, avgSale) {
   this.min = min;
   this.max = max;
   this.avgSale = avgSale;
+  this.cookieHourlyArray = [];
   this.customersPerHour = function () {
     return Math.floor(Math.random() * Math.floor(this.max) + this.min);
-  }
-  this.arraySalesPerHour = function () {
+  };
+  this.fillArrayOfSalesPerHour = function () {
     for(var hourIndex = 0; hourIndex < hours.length; hourIndex++) {
-      customersPerHour() * this.avgSale;
+      this.cookieHourlyArray.push(this.customersPerHour() * this.avgSale);
     }
-  }
-  this.cookieHourlyArray = [];
+  };
+
 
   // Render Function -------------------------------------------------
   // --- What does this do
   // --- sets up the render along the city axis, but not the time axis
 
-  this.render = function (domReference) {
-
+  this.render = function () {
+    var htmlTable = document.getElementById('cookie-table');
     var tr = document.createElement('tr');
 
     var tdName = document.createElement('td');
     tdName.textContent = this.name;
     tr.append(tdName);
 
-    for (var cityIndex = 0; cityIndex < cookieHourlyArray.length; cityIndex++) {
+    for (var cityIndex = 0; cityIndex < this.cookieHourlyArray.length; cityIndex++) {
       var td = document.createElement('td');
       td.textContent = this.cookieHourlyArray[cityIndex];
       tr.append(td);
@@ -60,7 +61,7 @@ function City(city, min, max, avgSale) {
     td.textContent = 'total';
     tr.append(td);
 
-    domReference.append(tr);
+    htmlTable.append(tr);
   };
 }
 
@@ -80,7 +81,11 @@ var arrayOfCities = [seattle, tokyo, dubai, paris, lima];
 console.log(`arrayOfCities: ${arrayOfCities}`);
 
 // ---------------------------------------------------------------------
+console.log(`cookieHourlyArray: ${seattle.cookieHourlyArray}`);
+seattle.fillArrayOfSalesPerHour();
+seattle.render();
 
+/*
 function crunchAndRenderTotals(arrayOfCities, domReference) {
 
   var tr = document.createElement('tr');
@@ -88,6 +93,8 @@ function crunchAndRenderTotals(arrayOfCities, domReference) {
   var firstTD = document.createElement('td');
   firstTD.textContent = 'Daily Totals';
   tr.append(firstTD);
+}
+
 
   for(var )
 
