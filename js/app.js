@@ -92,7 +92,22 @@ function renderTable() {
 }
 renderTable();
 
+// FORM -----------------------------------------------------------------------------
+//
 /*
+var form = document.getElementById('cookie-form');
+
+form.addEventListener('submit', clickHandler);
+function clickHandler() {
+  event.preventDefault();
+}
+
+var newCity = City();
+
+arrayOfCities.push(newCity);
+*/
+/*
+
 function crunchAndRenderTotals(arrayOfCities, domReference) {
 
   var tr = document.createElement('tr');
@@ -101,34 +116,5 @@ function crunchAndRenderTotals(arrayOfCities, domReference) {
   firstTD.textContent = 'Daily Totals';
   tr.append(firstTD);
 }
+
 */
-
-//-------------------------------------------------------------------------------
-// FORMS
-//-------------------------------------------------------------------------------
-
-// var form = document.getElementById('cookie-form');
-
-// form.addEventListener('submit', clickHandler);
-// function clickHandler() {
-//   event.preventDefault();
-// }
-
-// var newCity = City();
-
-//   arrayOfCities.push(newCity);
-
-//   cleanScreenAndRenderAll();
-// });
-
-// cleanScreenAndRenderAll();
-
-
-// var paragraph = document.getElementById('refresh');
-
-// paragraph.addEventListener('click', function(event) {
-//   var table = document.getElementById('dog-table');
-//   table.innerHTML = '';
-// });
-
-// Need Totals

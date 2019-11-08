@@ -19,10 +19,22 @@ li {
   color: rgb(75, 75, 75);
   text-shadow: 2px 2px 3 black;
 }
-.fish {
-  scale: 50%;
+.parallax {
+    background-image: url('../img/salmon.png');
+  
+    height: 500px;
+  
+    background-attachment: fixed;
+    /* remove the background-attachment property to remove the scrolling effect */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+.scrollbox {
+  height:800px;
+  background-color:rgb(237, 150, 28);
+  font-size: 24px;
 }
-
 table, form {
   background-color: rgb(71, 135, 255);
 }
