@@ -6,7 +6,7 @@
 //  Declares Store Hours
 //  Declares the min/max hourly customers, and the average cookies per customer,
 //      in object properties
-//  Stages array if Store Variables
+//  Creates an object of Store Variables called City
 
 var days = ['Monday', 'Tuesday', 'Wednesday',
   'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -18,10 +18,12 @@ console.log(`storeHours: ${hours}`);
 
 
 // Constructor w/ Random Customer Creator --------------------------
-// --- this allows me to create the data for each city
-// --- and their random customer per hour * average sale
-// --- which equals Sales per Hour in the selected City
-// --- which I store as arraySalesPerHour
+//    Create the data for each city
+//    and their random customer per hour based on
+//    random int between min and max (customersPerHour) * average sale
+//    which equals Sales per Hour in the selected City
+//    which I store as salesPerHourArray
+//    cookiesHourlyArray becomes the cell data
 
 function City(city, min, max, avgSale) {
   this.city = city;
@@ -32,24 +34,28 @@ function City(city, min, max, avgSale) {
   this.customersPerHour = function () {
     return Math.floor(Math.random() * Math.floor(this.max) + this.min);
   };
-  this.fillArrayOfSalesPerHour = function () {
-    for (var hourIndex = 0; hourIndex < hours.length; hourIndex++) {
+  this.salesPerHourArray = function () {
+    for(var hourIndex = 0; hourIndex < hours.length; hourIndex++) {
       this.cookieHourlyArray.push(Math.round(this.customersPerHour() * this.avgSale));
     }
   };
 
 
   // Render Function -------------------------------------------------
-  // --- What does this do
+  //    render gets the Table from the html and creates a tr "row" in it
+  //    Then tdName creates the first cell in that tr "row"
+  //    The cell is populated with the city name by appending it to the tdName "cell"
+  //    The for loop appends data cells for the rest the cities
   // --- sets up the render along the city axis, but not the time axis
 
   this.render = function () {
     var htmlTable = document.getElementById('cookie-table');
     var tr = document.createElement('tr');
 
-    var tdName = document.createElement('td');
-    tdName.textContent = this.name;
-    tr.append(tdName);
+    //    Horizontal Column Headers
+    var tdCityName = document.createElement('td');
+    tdCityName.textContent = this.city;
+    tr.append(tdCityName);
 
     for (var cityIndex = 0; cityIndex < this.cookieHourlyArray.length; cityIndex++) {
       var td = document.createElement('td');
@@ -66,6 +72,7 @@ function City(city, min, max, avgSale) {
 }
 
 // CITIES AND CITY ARRAY --------------------------------------------
+var horizHeader = new City() // work here to finish row
 
 var seattle = new City('Seattle', 23, 65, 6.3);
 
@@ -77,7 +84,7 @@ var paris = new City('Paris', 20, 38, 2.3);
 
 var lima = new City('Lima', 2, 16, 4.6);
 
-var arrayOfCities = [seattle, tokyo, dubai, paris, lima];
+var arrayOfCities = [horizHeader, seattle, tokyo, dubai, paris, lima];
 console.log(`arrayOfCities: ${arrayOfCities}`);
 
 // CALL CITIES TO RENDER --------------------------------------------
@@ -85,7 +92,7 @@ console.log(`arrayOfCities: ${arrayOfCities}`);
 
 function renderTable() {
   for (var cityIndex = 0; cityIndex <= arrayOfCities.length; cityIndex++) {
-    arrayOfCities[cityIndex].fillArrayOfSalesPerHour();
+    arrayOfCities[cityIndex].salesPerHourArray();
     console.log(`cookieHourlyArray: ${arrayOfCities[cityIndex].cookieHourlyArray}`);
     arrayOfCities[cityIndex].render();
   }
