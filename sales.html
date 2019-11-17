@@ -13,9 +13,7 @@
   <div id="data"></div>
   <img src=""></img>
   <table id="cookie-table"></table>
-
-  <p id="refresh">REFRESH</p>
-
+  <br><br>
   <form id="cookie-form">
     <fieldset>
       <label for="city"> Location: </label>
@@ -26,9 +24,11 @@
 
       <label for="max"> Maximum Sale: </label>
       <input name="max" type="text" />
-    </fieldset>
-    <button type="submit">Add New Store</button>
-    <a href="index.html">Index</a>
+      <hr>
+    <button type="submit" id="add">Add New Store</button>
+    <button onclick="location.href='sales.html'" type="button">Refresh</button>
+    <button onclick="location.href='index.html'" type="button">Homepage</button>
+  </fieldset>
   </form>
   <script src="js/app.js"></script>
 </body>

@@ -17,3 +17,7 @@ Fixing render, created form
 _v3 11/7/19_
 
 CSS and table fix, needs work
+
+_v4 11/17/19_
+
+Refining the table and the form

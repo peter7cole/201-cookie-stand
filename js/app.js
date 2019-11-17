@@ -6,22 +6,24 @@
 //  Declares Store Hours
 //  Declares the min/max hourly customers, and the average cookies per customer,
 //      in object properties
-//  Stages array if Store Variables
+//  Creates an object of Store Variables called City
 
 var days = ['Monday', 'Tuesday', 'Wednesday',
   'Thursday', 'Friday', 'Saturday', 'Sunday'];
 console.log(`days: ${days}`);
 
 var hours = ['6 am', '7 am', '8 am', '9 am', '10 am', '11 am',
-  '12 pm', '1 pm', '2 pm', '3 pm', '4 pm', '5 pm', '6 pm', '7 pm',];
+  '12 pm', '1 pm', '2 pm', '3 pm', '4 pm', '5 pm', '6 pm', '7 pm'];
 console.log(`storeHours: ${hours}`);
 
 
 // Constructor w/ Random Customer Creator --------------------------
-//    this allows me to create the data for each city
-//    and their random customer per hour * average sale
+//    Create the data for each city
+//    and their random customer per hour based on
+//    random int between min and max (customersPerHour) * average sale
 //    which equals Sales per Hour in the selected City
-//    which I store as arraySalesPerHour
+//    which I store as salesPerHourArray
+//    cookiesHourlyArray becomes the cell data
 
 function City(city, min, max, avgSale) {
   this.city = city;
@@ -32,35 +34,44 @@ function City(city, min, max, avgSale) {
   this.customersPerHour = function () {
     return Math.floor(Math.random() * Math.floor(this.max) + this.min);
   };
-  this.fillArrayOfSalesPerHour = function () {
-    for (var hourIndex = 0; hourIndex < hours.length; hourIndex++) {
+  this.salesPerHourArray = function () {
+    for(var hourIndex = 0; hourIndex < hours.length; hourIndex++) {
       this.cookieHourlyArray.push(Math.round(this.customersPerHour() * this.avgSale));
     }
   };
 
 
   // Render Function -------------------------------------------------
-  // --- What does this do
-  // --- sets up the render along the city axis, but not the time axis
+  //    render gets the Table from the html and creates a tr "row" in it
+  //    Then tdCityName creates the first cell in that tr "row"
+  //    The cell is populated with the city name by appending it to the tdName "cell"
+  //    The for loop appends data cells for the rest the cities
+  //    sets up the render along the city axis, but not the time axis
+  //    Totals are added as the cell data is filled (totalPerCity) and appended at end
 
   this.render = function () {
     var htmlTable = document.getElementById('cookie-table');
     var tr = document.createElement('tr');
 
-    var tdName = document.createElement('td');
-    tdName.textContent = this.city; //this.name edited
-    tr.append(tdName);
+    //    Horizontal Column Headers
+    var thCityName = document.createElement('th');
+    thCityName.textContent = this.city;
+    tr.append(thCityName);
 
+    //    Horizontal Row Contents
+    var totalPerCity = 0;
     for (var cityIndex = 0; cityIndex < this.cookieHourlyArray.length; cityIndex++) {
       var td = document.createElement('td');
       td.textContent = this.cookieHourlyArray[cityIndex];
+      totalPerCity = totalPerCity + this.cookieHourlyArray[cityIndex];
       tr.append(td);
     }
 
+    //    Horizontal Row Totals
     td = document.createElement('td');
-    td.textContent = 'total';
+    td.setAttribute('id', 'totals');
+    td.textContent = `${totalPerCity}`;
     tr.append(td);
-
     htmlTable.append(tr);
   };
 }
@@ -84,8 +95,25 @@ console.log(`arrayOfCities: ${arrayOfCities}`);
 // --- plug in each city into the render method and watch it burn
 
 function renderTable() {
-  for (var cityIndex = 0; cityIndex <= arrayOfCities.length; cityIndex++) {
-    arrayOfCities[cityIndex].fillArrayOfSalesPerHour();
+
+  var htmlTable = document.getElementById('cookie-table');
+  var tr = document.createElement('tr');
+  var th = document.createElement('th');
+  th.textContent = 'City';
+  tr.append(th);
+
+  //    Horizontal Column Headers
+
+  for (var hourIndex = 0; hourIndex <= hours.length; hourIndex++) {
+    th = document.createElement('th');
+    th.textContent = hours[hourIndex];
+    tr.append(th);
+  }
+  th.textContent = 'Total';
+  tr.append(th);
+  htmlTable.append(tr);
+  for (var cityIndex = 0; cityIndex < arrayOfCities.length; cityIndex++) {
+    arrayOfCities[cityIndex].salesPerHourArray();
     console.log(`cookieHourlyArray: ${arrayOfCities[cityIndex].cookieHourlyArray}`);
     arrayOfCities[cityIndex].render();
   }
