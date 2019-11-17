@@ -13,7 +13,7 @@ var days = ['Monday', 'Tuesday', 'Wednesday',
 console.log(`days: ${days}`);
 
 var hours = ['6 am', '7 am', '8 am', '9 am', '10 am', '11 am',
-  '12 pm', '1 pm', '2 pm', '3 pm', '4 pm', '5 pm', '6 pm', '7 pm',];
+  '12 pm', '1 pm', '2 pm', '3 pm', '4 pm', '5 pm', '6 pm', '7 pm'];
 console.log(`storeHours: ${hours}`);
 
 
@@ -43,36 +43,40 @@ function City(city, min, max, avgSale) {
 
   // Render Function -------------------------------------------------
   //    render gets the Table from the html and creates a tr "row" in it
-  //    Then tdName creates the first cell in that tr "row"
+  //    Then tdCityName creates the first cell in that tr "row"
   //    The cell is populated with the city name by appending it to the tdName "cell"
   //    The for loop appends data cells for the rest the cities
-  // --- sets up the render along the city axis, but not the time axis
+  //    sets up the render along the city axis, but not the time axis
+  //    Totals are added as the cell data is filled (totalPerCity) and appended at end
 
   this.render = function () {
     var htmlTable = document.getElementById('cookie-table');
     var tr = document.createElement('tr');
 
     //    Horizontal Column Headers
-    var tdCityName = document.createElement('td');
-    tdCityName.textContent = this.city;
-    tr.append(tdCityName);
+    var thCityName = document.createElement('th');
+    thCityName.textContent = this.city;
+    tr.append(thCityName);
 
+    //    Horizontal Row Contents
+    var totalPerCity = 0;
     for (var cityIndex = 0; cityIndex < this.cookieHourlyArray.length; cityIndex++) {
       var td = document.createElement('td');
       td.textContent = this.cookieHourlyArray[cityIndex];
+      totalPerCity = totalPerCity + this.cookieHourlyArray[cityIndex];
       tr.append(td);
     }
 
+    //    Horizontal Row Totals
     td = document.createElement('td');
-    td.textContent = 'total';
+    td.setAttribute('id', 'totals');
+    td.textContent = `${totalPerCity}`;
     tr.append(td);
-
     htmlTable.append(tr);
   };
 }
 
 // CITIES AND CITY ARRAY --------------------------------------------
-var horizHeader = new City() // work here to finish row
 
 var seattle = new City('Seattle', 23, 65, 6.3);
 
@@ -84,14 +88,31 @@ var paris = new City('Paris', 20, 38, 2.3);
 
 var lima = new City('Lima', 2, 16, 4.6);
 
-var arrayOfCities = [horizHeader, seattle, tokyo, dubai, paris, lima];
+var arrayOfCities = [seattle, tokyo, dubai, paris, lima];
 console.log(`arrayOfCities: ${arrayOfCities}`);
 
 // CALL CITIES TO RENDER --------------------------------------------
 // --- plug in each city into the render method and watch it burn
 
 function renderTable() {
-  for (var cityIndex = 0; cityIndex <= arrayOfCities.length; cityIndex++) {
+
+  var htmlTable = document.getElementById('cookie-table');
+  var tr = document.createElement('tr');
+  var th = document.createElement('th');
+  th.textContent = 'City';
+  tr.append(th);
+
+  //    Horizontal Column Headers
+
+  for (var hourIndex = 0; hourIndex <= hours.length; hourIndex++) {
+    th = document.createElement('th');
+    th.textContent = hours[hourIndex];
+    tr.append(th);
+  }
+  th.textContent = 'Total';
+  tr.append(th);
+  htmlTable.append(tr);
+  for (var cityIndex = 0; cityIndex < arrayOfCities.length; cityIndex++) {
     arrayOfCities[cityIndex].salesPerHourArray();
     console.log(`cookieHourlyArray: ${arrayOfCities[cityIndex].cookieHourlyArray}`);
     arrayOfCities[cityIndex].render();
