@@ -18,10 +18,10 @@ console.log(`storeHours: ${hours}`);
 
 
 // Constructor w/ Random Customer Creator --------------------------
-// --- this allows me to create the data for each city
-// --- and their random customer per hour * average sale
-// --- which equals Sales per Hour in the selected City
-// --- which I store as arraySalesPerHour
+//    this allows me to create the data for each city
+//    and their random customer per hour * average sale
+//    which equals Sales per Hour in the selected City
+//    which I store as arraySalesPerHour
 
 function City(city, min, max, avgSale) {
   this.city = city;
@@ -48,7 +48,7 @@ function City(city, min, max, avgSale) {
     var tr = document.createElement('tr');
 
     var tdName = document.createElement('td');
-    tdName.textContent = this.name;
+    tdName.textContent = this.city; //this.name edited
     tr.append(tdName);
 
     for (var cityIndex = 0; cityIndex < this.cookieHourlyArray.length; cityIndex++) {
